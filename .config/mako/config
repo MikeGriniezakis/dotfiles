@@ -1,0 +1,12 @@
+font=Hack 10
+width=400
+height=400
+layer=overlay
+background-color=#141c21
+border-color=#8bc34a
+border-radius=2
+default-timeout=4000
+margin=32
+padding=16
+format=%s\n\n%b
+max-icon-size=96
