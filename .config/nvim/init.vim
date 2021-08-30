@@ -10,8 +10,9 @@ Plug 'jdhao/better-escape.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
 Plug 'blackcauldron7/surround.nvim'
+Plug 'ibhagwan/fzf-lua'
+Plug 'vijaymarupudi/nvim-fzf'
 Plug 'ahmedkhalf/project.nvim'
 Plug 'ellisonleao/glow.nvim', {'do': ':GlowInstall', 'branch': 'main'}
 Plug 'williamboman/nvim-lsp-installer'
@@ -100,10 +101,6 @@ lua << EOF
 EOF
 
 lua << EOF
-require('telescope').load_extension('projects')
-EOF
-
-lua << EOF
 local lsp_installer = require("nvim-lsp-installer")
 
 lsp_installer.on_server_ready(function(server)
@@ -171,11 +168,10 @@ xmap        S   <Plug>(vsnip-cut-text)
 
 lua require"surround".setup{}
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>bb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap <leader>fb <cmd>Telescope file_browser<cr>
+nnoremap <leader>ff <cmd>lua require('fzf-lua').files()<CR>
+nnoremap <leader><leader> <cmd>lua require('fzf-lua').files()<CR>
+nnoremap <leader>bb <cmd>lua require('fzf-lua').buffers()<CR>
+
 
 set relativenumber
 let g:better_escape_shortcut = 'fd'
