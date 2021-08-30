@@ -1,6 +1,6 @@
 call plug#begin(stdpath('data').'/plugged')
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': '0.5-compat'}
 Plug 'vim-airline/vim-airline'
 Plug 'windwp/nvim-autopairs'
 Plug 'scrooloose/nerdcommenter'
@@ -143,7 +143,6 @@ lua << EOF
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
--- The following example advertise capabilities to `clangd`.
 require'lspconfig'.pyright.setup {
   capabilities = capabilities,
 }
@@ -180,4 +179,4 @@ nnoremap <leader>fb <cmd>Telescope file_browser<cr>
 
 set relativenumber
 let g:better_escape_shortcut = 'fd'
-colorscheme tokyonight
+colorscheme onedark
