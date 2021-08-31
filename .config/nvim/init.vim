@@ -3,7 +3,7 @@ call plug#begin(stdpath('data').'/plugged')
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': '0.5-compat'}
 Plug 'vim-airline/vim-airline'
 Plug 'windwp/nvim-autopairs'
-Plug 'scrooloose/nerdcommenter'
+Plug 'winston0410/commented.nvim'
 Plug 'navarasu/onedark.nvim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'jdhao/better-escape.vim'
@@ -23,9 +23,13 @@ Plug 'rafamadriz/friendly-snippets'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'kristijanhusak/orgmode.nvim'
+Plug 'folke/which-key.nvim'
 
 " Initialize plugin system
 call plug#end()
+
+let mapleader =  "\<Space>"
+nnoremap <leader>\ :nohlsearch<CR>
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
@@ -36,9 +40,15 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
+
 lua << EOF
 require('nvim-autopairs').setup{}
 EOF
+
+lua << EOF
+require('commented').setup()
+EOF
+
 
 lua << EOF
 require'lspconfig'.pyright.setup{}
@@ -92,8 +102,6 @@ for _, lsp in ipairs(servers) do
   }
 end
 EOF
-let mapleader =  "\<Space>"
-nnoremap <leader>\ :nohlsearch<CR>
 
 lua << EOF
   require("project_nvim").setup {
@@ -145,6 +153,11 @@ require'lspconfig'.pyright.setup {
 }
 EOF
 
+lua << EOF
+  require("which-key").setup {
+  }
+EOF
+
 " Expand
 imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
@@ -169,7 +182,6 @@ xmap        S   <Plug>(vsnip-cut-text)
 lua require"surround".setup{}
 
 nnoremap <leader>ff <cmd>lua require('fzf-lua').files()<CR>
-nnoremap <leader><leader> <cmd>lua require('fzf-lua').files()<CR>
 nnoremap <leader>bb <cmd>lua require('fzf-lua').buffers()<CR>
 
 
