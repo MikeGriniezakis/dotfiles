@@ -183,6 +183,7 @@ lua require"surround".setup{}
 
 nnoremap <leader>ff <cmd>lua require('fzf-lua').files()<CR>
 nnoremap <leader>bb <cmd>lua require('fzf-lua').buffers()<CR>
+nnoremap <leader>fl <cmd>lua require('fzf-lua').builtin()<CR>
 
 
 set relativenumber
