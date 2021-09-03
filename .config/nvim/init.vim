@@ -5,6 +5,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'windwp/nvim-autopairs'
 Plug 'winston0410/commented.nvim'
 Plug 'navarasu/onedark.nvim'
+Plug 'dracula/vim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'jdhao/better-escape.vim'
 Plug 'easymotion/vim-easymotion'
@@ -24,6 +25,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'kristijanhusak/orgmode.nvim'
 Plug 'folke/which-key.nvim'
+Plug 'windwp/nvim-ts-autotag'
 
 " Initialize plugin system
 call plug#end()
@@ -42,7 +44,7 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,              -- false will disable the whole extension
   },
-	incremental_selection = {
+  incremental_selection = {
     enable = true,
     keymaps = {
       init_selection = 'gnn',
@@ -53,6 +55,10 @@ require'nvim-treesitter.configs'.setup {
   },
   indent = {
     enable = true,
+  },
+  autotag = {
+    enable = true,
+    filetypes = {"xml", "x3ml"},
   },
 }
 EOF
@@ -112,6 +118,14 @@ lua <<EOF
     }
   })
 EOF
+lua << EOF
+require("nvim-autopairs.completion.cmp").setup({
+  map_cr = true, --  map <CR> on insert mode
+  map_complete = true, -- it will auto insert `(` after select function or method item
+  auto_select = true -- automatically select the first item
+})
+EOF
+
 
 lua << EOF
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -156,8 +170,9 @@ nnoremap <leader>fl <cmd>lua require('fzf-lua').builtin()<CR>
 
 
 set relativenumber
+set termguicolors
 let g:better_escape_shortcut = 'fd'
-colorscheme onedark
+colorscheme dracula
 
 lua << EOF
 local nvim_lsp = require('lspconfig')
