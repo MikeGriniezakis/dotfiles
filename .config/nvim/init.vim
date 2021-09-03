@@ -171,6 +171,7 @@ nnoremap <leader>fl <cmd>lua require('fzf-lua').builtin()<CR>
 
 set relativenumber
 set termguicolors
+set clipboard=unnamedplus
 let g:better_escape_shortcut = 'fd'
 colorscheme dracula
 
