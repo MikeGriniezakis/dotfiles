@@ -1,7 +1,8 @@
 call plug#begin(stdpath('data').'/plugged')
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate', 'branch': '0.5-compat'}
-Plug 'vim-airline/vim-airline'
+Plug 'TimUntersberger/neogit'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'windwp/nvim-autopairs'
 Plug 'winston0410/commented.nvim'
 Plug 'navarasu/onedark.nvim'
@@ -167,6 +168,8 @@ lua require"surround".setup{}
 nnoremap <leader>ff <cmd>lua require('fzf-lua').files()<CR>
 nnoremap <leader>bb <cmd>lua require('fzf-lua').buffers()<CR>
 nnoremap <leader>fl <cmd>lua require('fzf-lua').builtin()<CR>
+nnoremap <leader>bd <cmd>bd<CR>
+nnoremap <leader>fs <cmd>w<CR>
 
 
 set relativenumber
@@ -222,4 +225,40 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+EOF
+
+lua << EOF
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = 'dracula',
+    component_separators = {'', ''},
+    section_separators = {'', ''},
+    disabled_filetypes = {}
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+EOF
+
+lua << EOF
+local neogit = require('neogit')
+
+neogit.setup {}
 EOF
