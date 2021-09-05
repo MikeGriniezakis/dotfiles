@@ -6,7 +6,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
   
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function() require('config.treesitter') end}
 
   use {'dracula/vim', as = 'dracula'}
 
@@ -43,5 +43,13 @@ return require('packer').startup(function()
   use 'windwp/nvim-ts-autotag'
 
   use {"ellisonleao/glow.nvim", run = "GlowInstall"}
+
+  use 'glepnir/lspsaga.nvim'
+
+  use 'onsails/lspkind-nvim'
+
+  use 'RRethy/vim-illuminate'
+
+  use 'p00f/nvim-ts-rainbow'
 
 end)

@@ -10,21 +10,22 @@ require('lualine').setup{
 
 -- Treesitter config
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "python",
+  ensure_installed = "maintained",
   highlight = {
     enable = true,
   },
-  autotag = {
+  rainbow = {
     enable = true,
-  },
+    extended = true,
+  }
 }
-
 
 require('github-theme').setup({
 	hideInactiveStatusline = true,
 	themeStyle = 'dimmed',
 })
 
+vim.cmd("set termguicolors")
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -38,6 +39,13 @@ vim.cmd("nnoremap <leader>bd <cmd>bd<CR>")
 vim.cmd("nnoremap <leader>fs <cmd>w<CR>")
 vim.cmd("noremap <leader>p :Glow<CR>")
 
+
+
+
+require('commented').setup()
+require("which-key").setup()
+require('nvim-autopairs').setup{}
+
 -- LSP Config
 
 local nvim_lsp = require('lspconfig')
@@ -45,6 +53,7 @@ local nvim_lsp = require('lspconfig')
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+  require 'illuminate'.on_attach(client)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -75,18 +84,6 @@ local on_attach = function(client, bufnr)
 
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'rust_analyzer', 'tsserver' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
-
 -- Completion config
 local cmp = require'cmp'
   cmp.setup({
@@ -111,6 +108,35 @@ require'lspconfig'.pyright.setup {
   capabilities = capabilities,
 }
 
-require('commented').setup()
-require("which-key").setup()
-require('nvim-autopairs').setup{}
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { 'pyright', 'rust_analyzer', 'tsserver' }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+
+local saga = require 'lspsaga'
+saga.init_lsp_saga()
+
+vim.cmd("nnoremap <silent><leader>clf :Lspsaga lsp_finder<CR>")
+vim.cmd("nnoremap <silent><leader>cca :Lspsaga code_action<CR>")
+vim.cmd("vnoremap <silent><leader>cca :<C-U>Lspsaga range_code_action<CR>")
+vim.cmd("nnoremap <silent><leader>chd :Lspsaga hover_doc<CR>")
+vim.cmd("nnoremap <silent><C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>")
+vim.cmd("nnoremap <silent><C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>")
+vim.cmd("nnoremap <silent><leader>csh :Lspsaga signature_help<CR>")
+vim.cmd("nnoremap <silent><leader>crn :Lspsaga rename<CR>")
+vim.cmd("nnoremap <silent><leader>cpd:Lspsaga preview_definition<CR>")
+vim.cmd("nnoremap <silent> <leader>cld :Lspsaga show_line_diagnostics<CR>")
+vim.cmd("nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>")
+vim.cmd("nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>")
+vim.cmd("nnoremap <silent> <leader>cot :Lspsaga open_floaterm<CR>")
+vim.cmd("tnoremap <silent> <leader>cct <C-\\><C-n>:Lspsaga close_floaterm<CR>")
+
+require('lspkind').init()
+
