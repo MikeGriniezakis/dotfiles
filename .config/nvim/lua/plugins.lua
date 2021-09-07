@@ -52,4 +52,6 @@ return require('packer').startup(function()
 
   use 'p00f/nvim-ts-rainbow'
 
+  use 'ggandor/lightspeed.nvim'
+
 end)
