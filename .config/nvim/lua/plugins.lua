@@ -6,7 +6,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
   
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = function() require('config.treesitter') end}
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
 
   use {'dracula/vim', as = 'dracula'}
 
@@ -14,19 +14,11 @@ return require('packer').startup(function()
 
   use 'neovim/nvim-lspconfig'
 
-  use 'hrsh7th/nvim-cmp'
-
-  use 'hrsh7th/vim-vsnip'
-
-  use 'hrsh7th/vim-vsnip-integ'
+  use { 'ms-jpq/coq_nvim', branch = 'coq'}
   
-  use 'rafamadriz/friendly-snippets'
+  use { 'ms-jpq/coq.artifacts', branch= 'artifacts'}
 
-  use 'hrsh7th/cmp-buffer'
-
-  use 'hrsh7th/cmp-nvim-lsp'
-
-  use 'winston0410/commented.nvim'
+  use 'b3nj5m1n/kommentary'
 
   use 'jdhao/better-escape.vim'
 
@@ -38,12 +30,8 @@ return require('packer').startup(function()
 
   use 'projekt0n/github-nvim-theme'
 
-  use 'windwp/nvim-autopairs'
+  use "steelsojka/pears.nvim"
   
-  use 'windwp/nvim-ts-autotag'
-
-  use {"ellisonleao/glow.nvim", run = "GlowInstall"}
-
   use 'glepnir/lspsaga.nvim'
 
   use 'onsails/lspkind-nvim'
@@ -53,5 +41,7 @@ return require('packer').startup(function()
   use 'p00f/nvim-ts-rainbow'
 
   use 'ggandor/lightspeed.nvim'
+
+  use 'ray-x/lsp_signature.nvim'
 
 end)

@@ -18,9 +18,6 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
     extended = true,
   },
-  autotag = {
-    enable = true,
-  }
 }
 
 require('github-theme').setup({
@@ -33,21 +30,20 @@ vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.cmd("let g:better_escape_shortcut = 'fd'")
-vim.g.clipboard=unnamedplus
+vim.cmd("set clipboard+=unnamedplus")
+vim.cmd("set number")
 
 vim.cmd("nnoremap <leader>ff <cmd>lua require('fzf-lua').files()<CR>")
 vim.cmd("nnoremap <leader>bb <cmd>lua require('fzf-lua').buffers()<CR>")
 vim.cmd("nnoremap <leader>fl <cmd>lua require('fzf-lua').builtin()<CR>")
 vim.cmd("nnoremap <leader>bd <cmd>bd<CR>")
 vim.cmd("nnoremap <leader>fs <cmd>w<CR>")
-vim.cmd("noremap <leader>p :Glow<CR>")
 
-
-
-
-require('commented').setup()
+require('kommentary.config').use_extended_mappings()
+require('kommentary.config').configure_language("default", {
+    prefer_single_line_comments = true,
+})
 require("which-key").setup()
-require('nvim-autopairs').setup{}
 
 -- LSP Config
 
@@ -57,6 +53,7 @@ local nvim_lsp = require('lspconfig')
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
   require 'illuminate'.on_attach(client)
+  require 'lsp_signature'.on_attach()
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -87,29 +84,9 @@ local on_attach = function(client, bufnr)
 
 end
 
--- Completion config
-local cmp = require'cmp'
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-      end,
-    },
-    mapping = {
-      ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-    },
-    sources = {
-      { name = 'nvim_lsp' },
-      { name = 'buffer' }
-    }
-})
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
-require'lspconfig'.pyright.setup {
-  capabilities = capabilities,
-}
+vim.cmd("let g:coq_settings = { 'auto_start': 'shut-up' }")
+local coq = require("coq")
+require'lspconfig'.pyright.setup{coq.lsp_ensure_capabilities()}
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
@@ -142,4 +119,8 @@ vim.cmd("nnoremap <silent> <leader>cot :Lspsaga open_floaterm<CR>")
 vim.cmd("tnoremap <silent> <leader>cct <C-\\><C-n>:Lspsaga close_floaterm<CR>")
 
 require('lspkind').init()
+
+require "pears".setup(function(conf)
+	conf.preset "tag_matching"
+end)
 
