@@ -30,18 +30,30 @@ return require('packer').startup(function()
 
   use 'projekt0n/github-nvim-theme'
 
-  use "steelsojka/pears.nvim"
+  use 'windwp/nvim-autopairs'
   
   use 'glepnir/lspsaga.nvim'
 
   use 'onsails/lspkind-nvim'
-
-  use 'RRethy/vim-illuminate'
 
   use 'p00f/nvim-ts-rainbow'
 
   use 'ggandor/lightspeed.nvim'
 
   use 'ray-x/lsp_signature.nvim'
+
+  use "rafamadriz/neon"
+
+  use {'beauwilliams/focus.nvim'}
+
+  use {
+  'jghauser/mkdir.nvim',
+  config = function()
+    require('mkdir')
+  end
+}
+
+  use {"akinsho/toggleterm.nvim"}
+
 
 end)
